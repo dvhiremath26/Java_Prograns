@@ -1,45 +1,51 @@
 package StringManipulations;
 
-import org.openqa.selenium.By;
+import java.io.File;
+import java.io.IOException;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import java.time.Duration;
-
+import org.apache.commons.io.FileUtils;
 
 public class selenium {
 
-    public static void main(String[] args) {
-        // Set the path to your ChromeDriver executable
-        // System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
+	public static void main(String[] args)  {
+		
+		
+		WebDriver driver = new ChromeDriver();
+		
+		driver.manage().window().maximize();
+		
+		 try {
+	            // Navigate to the desired web page
+	            driver.get("https://google.com");
 
-        // Initialize the WebDriver
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
+	            // Cast driver to TakesScreenshot
+	            TakesScreenshot screenshot = (TakesScreenshot) driver;
 
-        try {
-            // Navigate to the website
-            driver.get("https://www.info-pg.com/");
+	            // Capture the screenshot and store it as a file
+	            File srcFile = screenshot.getScreenshotAs(OutputType.FILE);
 
-            // Create a WebDriverWait instance
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+	            // Define the destination file path
+	            String filePath = "screenshot.png";
+	            File destFile = new File(filePath);
 
-            // Wait for the cookie banner to load and become clickable
-            WebElement acceptCookiesButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Accept All Cookies']")));
+	            // Copy the source file to the destination file
+	            FileUtils.copyFile(srcFile, destFile);
 
-            // Click on the Accept All Cookies button
-            acceptCookiesButton.click();
-            Thread.sleep(10000);
+	            System.out.println("Screenshot saved successfully at " + destFile.getAbsolutePath());
 
-            // Additional actions can be performed here after accepting cookies
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	            System.out.println("Failed to save screenshot due to IOException.");
+	        } finally {
+	            // Close the browser
+	            driver.quit();
+	        }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            // Close the browser
-            driver.quit();
-        }
-    }
+		
+
+	}
+
 }

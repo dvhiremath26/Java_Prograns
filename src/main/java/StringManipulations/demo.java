@@ -1,44 +1,35 @@
 package StringManipulations;
 
+import java.util.Arrays;
 
+// Count the number of alphabets/numericals/special characters/spaces
 public class demo {
 
+    // input: India is great country
+    // output : is great India country
     public static void main(String[] args) {
+
+        int[] input = {1,0,0,2,3,0,4,0,0,0,5};
+
+        int n = input.length;
+        int lastIndex = n-1;
+
+        for(int i=lastIndex; i>=0; i--) {
+            if(input[i] != 0) {
+                int temp = input[i];
+                input[i] = input[lastIndex];
+                input[lastIndex] = temp;
+
+                lastIndex--;
+            }            
+        }        
+
+        System.out.println(Arrays.toString(input));
         
-        String s = "deepak @ 123";
-        char arr[] = s.toCharArray();
-        int n = arr.length;
-        boolean flag1, flag2, flag3 = false;
-        int digitCount=0, alphaCount = 0, spaceCount=0;
+        
 
-        for(int i=0; i<n; i++) {
-            flag1 = Character.isDigit(arr[i]);  
-            if(flag1 ){
-                digitCount++;
-            }                  
-        }
 
-        for(int i=0; i<n; i++) {
-            flag2 = Character.isAlphabetic(arr[i]);
-            if(flag2){
-                alphaCount++;
-            }                  
-        }
 
-        for(int i=0; i<n; i++) {
-            flag3 = Character.isSpaceChar(arr[i]);
-            if(flag3){
-                spaceCount++;
-            }                  
-        }
-
-        int specialCharCount = n - (digitCount + alphaCount+ spaceCount);
-
-        System.out.println("String contains numbers and its count is: " + digitCount);
-        System.out.println("String contains alphabets and its count is: " + alphaCount);
-        System.out.println("String contains spaces and its count is: " + spaceCount);
-        System.out.println("String contains special character and its count is: " + specialCharCount);
-    }
-    
+    }    
 }
 
